@@ -7,8 +7,11 @@ function BadgePage() {
       <Badge variant="colorCute">Badge</Badge>
       <Badge variant="secondary">Secondary</Badge>
       <Badge variant="outline">Outline</Badge>
-      <Badge variant="destructive">destructive</Badge>
-      <Badge variant="info">
+      <Badge capitalize variant="destructive">
+        destructive
+      </Badge>
+      <Badge capitalize variant="info">
+        <span className="mr-1">info</span>
         <IoAlertCircle size={30} />
       </Badge>
     </div>
