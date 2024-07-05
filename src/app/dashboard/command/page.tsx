@@ -42,7 +42,11 @@ function CommandPage() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => alert("calendar")}>
+            <CommandItem
+              onSelect={(value) => {
+                alert(value);
+              }}
+            >
               <Calendar className="mr-2 h-4 w-4" />
               <span>Calendar</span>
             </CommandItem>
