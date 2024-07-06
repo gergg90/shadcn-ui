@@ -8,14 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 const getData = async () => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   return "123456".split("");
 };
 
-export const CardPage = async () => {
+const SkeletonPage = async () => {
   const data = await getData();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
       {data.map((item) => (
@@ -43,4 +43,4 @@ export const CardPage = async () => {
   );
 };
 
-export default CardPage;
+export default SkeletonPage;
