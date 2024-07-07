@@ -1,4 +1,5 @@
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
@@ -29,6 +30,7 @@ export default function RootLayout({
       >
         {children}
         <SonnerToaster richColors />
+        <Toaster />
       </body>
     </html>
   );
