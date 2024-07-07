@@ -9,7 +9,7 @@ const SkeletonPage = () => {
       {data.map((item) => (
         <Card key={item}>
           <CardHeader className="flex-row">
-            <Skeleton className="rounded-full h-20 w-20 mr-3" />
+            <Skeleton className="rounded-full h-10 w-10 mr-2" />
 
             <div className="flex-col flex-grow">
               <Skeleton className="h-4 w-1/2 mb-2" />
