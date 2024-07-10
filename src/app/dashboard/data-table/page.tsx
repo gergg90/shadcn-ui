@@ -1,4 +1,6 @@
 import { payments } from "@/data/payments.data";
+import { Columns } from "./columns";
+import { DataTable } from "./data-table";
 
 const fetchData = async () => {
   return payments;
@@ -6,8 +8,12 @@ const fetchData = async () => {
 
 const DataTablePage = async () => {
   const data = await fetchData();
-
-  return <div></div>;
+  const columns = Columns;
+  return (
+    <div>
+      <DataTable data={data} columns={columns} />
+    </div>
+  );
 };
 
 export default DataTablePage;
