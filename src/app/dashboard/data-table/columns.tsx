@@ -1,9 +1,10 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Payment } from "@/data/payments.data";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, SortDirection } from "@tanstack/react-table";
 
 import { MoreHorizontal } from "lucide-react";
+import { IoArrowDown, IoArrowUp } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,26 +17,50 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 
-// export type Payment = {
-//   id: string;
-//   amount: number;
-//   status: "pending" | "processing" | "success" | "failed";
-//   email: string;
-//   clientName: string;
-// };
+const SortedIcon = ({ isSorted }: { isSorted: false | SortDirection }) => {
+  if (isSorted === "asc") return <IoArrowUp />;
+  if (isSorted === "desc") return <IoArrowDown />;
+
+  return null;
+};
 
 export const Columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "clientName",
-    header: "Client Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name <SortedIcon isSorted={column.getIsSorted()} />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email <SortedIcon isSorted={column.getIsSorted()} />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "amount",
-    header: () => <div>Amount</div>,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Amount <SortedIcon isSorted={column.getIsSorted()} />
+      </Button>
+    ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -47,7 +72,14 @@ export const Columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: () => <div>Status</div>,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Status <SortedIcon isSorted={column.getIsSorted()} />
+      </Button>
+    ),
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
 
