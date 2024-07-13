@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 // export type Payment = {
 //   id: string;
@@ -113,9 +113,8 @@ export const Columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(payment.id);
-                toast({
-                  title: "Hello!!! Your ID has been successfully copied",
-                  description: "Now paste anywhere.",
+                toast("Hello!!! Your ID has been successfully copied", {
+                  position: "top-right",
                 });
               }}
             >
