@@ -1,7 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Payment } from "@/data/payments.data";
-import { ColumnDef, SortDirection } from "@tanstack/react-table";
+import { ColumnDef, FilterFn, Row, SortDirection } from "@tanstack/react-table";
 
 import { MoreHorizontal } from "lucide-react";
 import { IoArrowDown, IoArrowUp } from "react-icons/io5";
@@ -17,6 +17,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+
+const myCustomFilterFn: FilterFn<Payment> = (
+  row: Row<Payment>,
+  columnId: string,
+  filterValue: any,
+  addMeta: (meta: any) => void
+) => {
+  filterValue = filterValue.toLowerCase();
+
+  if (row.original.email.includes(filterValue)) {
+    return true;
+  }
+  if (row.original.status.includes(filterValue)) {
+    return true;
+  }
+  if (row.original.clientName.includes(filterValue)) {
+    return true;
+  }
+
+  return false;
+};
 
 const SortedIcon = ({ isSorted }: { isSorted: false | SortDirection }) => {
   if (isSorted === "asc") return <IoArrowUp />;
@@ -63,6 +84,7 @@ export const Columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "email",
+    filterFn: myCustomFilterFn,
     header: ({ column }) => {
       return (
         <Button

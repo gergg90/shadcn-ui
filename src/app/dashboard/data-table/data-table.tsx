@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
             table.getColumn("status")?.setFilterValue(undefined);
             table.getColumn("email")?.setFilterValue(e.target.value);
           }}
-          placeholder="Filter email..."
+          placeholder="Filter custom (email, name, status)..."
         />
 
         <Select
