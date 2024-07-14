@@ -38,6 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Payment } from "@/data/payments.data";
 import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -53,6 +54,9 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [currentStatus, setCurrentStatus] = useState("all");
+  const [rowSelection, setRowSelection] = useState({});
+
+  const isDeleteVisible = Object.keys(rowSelection).length > 0;
 
   const table = useReactTable({
     data,
@@ -64,10 +68,12 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
 
@@ -123,6 +129,7 @@ export function DataTable<TData, TValue>({
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
+              .filter((column) => column.id !== "actions" && column.id !== "id")
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
@@ -183,24 +190,57 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-center space-x-2 py-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previus
-        </Button>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="mx-3 my-3">
+        <div className="flex justify-between text-sm text-muted-foreground">
+          <div>
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+
+          <div>
+            {isDeleteVisible && (
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  // const ids = table.getSelectedRowModel().rows.forEach((row) => {
+                  //   const { id, clientName } = row.original;
+                  //   console.log({ id, clientName });
+                  // });
+
+                  const ids = table.getSelectedRowModel().rows.map((row) => {
+                    const { id } = row.original as Payment;
+
+                    return id;
+                  });
+
+                  console.log(ids);
+                }}
+              >
+                Delete records
+              </Button>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center justify-center ">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previus
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
