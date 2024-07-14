@@ -56,6 +56,8 @@ export function DataTable<TData, TValue>({
   const [currentStatus, setCurrentStatus] = useState("all");
   const [rowSelection, setRowSelection] = useState({});
 
+  const [value, setValue] = useState("");
+
   const isDeleteVisible = Object.keys(rowSelection).length > 0;
 
   const table = useReactTable({
@@ -82,7 +84,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center mx-2 py-3 gap-2">
         <Input
           className="max-w-sm"
-          value={table.getColumn("email")?.getFilterValue() as string}
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(e) => {
             setCurrentStatus("all");
             table.getColumn("status")?.setFilterValue(undefined);
@@ -222,24 +224,47 @@ export function DataTable<TData, TValue>({
             )}
           </div>
         </div>
-        <div className="flex items-center justify-center ">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previus
-          </Button>
+        <div className="flex flex-col items-center justify-center ">
+          <div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previus
+            </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+          <div className="text-sm mt-2">
+            <Select
+              onValueChange={(value) => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="10 rows" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Rows per page</SelectLabel>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="30">30</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
     </div>

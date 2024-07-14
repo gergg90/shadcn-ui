@@ -25,18 +25,24 @@ const myCustomFilterFn: FilterFn<Payment> = (
   addMeta: (meta: any) => void
 ) => {
   filterValue = filterValue.toLowerCase();
+  const filterPats = filterValue.split(" ");
 
-  if (row.original.email.includes(filterValue)) {
-    return true;
-  }
-  if (row.original.status.includes(filterValue)) {
-    return true;
-  }
-  if (row.original.clientName.includes(filterValue)) {
-    return true;
-  }
+  const rowValues =
+    `${row.original.clientName} ${row.original.email} ${row.original.status}`.toLowerCase();
 
-  return false;
+  // if (row.original.email.includes(filterValue)) {
+  //   return true;
+  // }
+  // if (row.original.status.includes(filterValue)) {
+  //   return true;
+  // }
+  // if (row.original.clientName.includes(filterValue)) {
+  //   return true;
+  // }
+
+  // return false
+
+  return filterPats.every((part: any) => rowValues.includes(part));
 };
 
 const SortedIcon = ({ isSorted }: { isSorted: false | SortDirection }) => {
