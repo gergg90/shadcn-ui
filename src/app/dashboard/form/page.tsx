@@ -23,6 +23,7 @@ const formSchema = z.object({
     .max(12, {
       message: "Username must be at most 12 characters",
     }),
+  email: z.string().email(),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -32,6 +33,7 @@ const FormPage = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      email: "",
     },
   });
 
@@ -50,10 +52,27 @@ const FormPage = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="...write your username" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="...write your email" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display email.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -66,5 +85,6 @@ const FormPage = () => {
     </div>
   );
 };
+1;
 
 export default FormPage;
