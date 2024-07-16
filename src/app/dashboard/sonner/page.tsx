@@ -12,7 +12,7 @@ const SonnerPage = () => {
   const dateNow = new Date();
 
   const promise = (): Promise<SonnerName> =>
-    new Promise((resolve) =>
+    new Promise((resolve) => {
       setTimeout(
         () =>
           resolve({
@@ -21,8 +21,8 @@ const SonnerPage = () => {
             email: "gergg@gmail.com",
           }),
         2000
-      )
-    );
+      );
+    });
 
   return (
     <div className="grid grid-cols-4 gap-4">
